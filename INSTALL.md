@@ -19,7 +19,7 @@ In php.ini, or some other configuration like
 
     extension=fibonacci.so
 
-and activate this ini-file accirding your distro/
+and activate this ini-file according your distro.
 
 FINALLY
 ------
