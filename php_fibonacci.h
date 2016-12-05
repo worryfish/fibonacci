@@ -25,7 +25,7 @@
 
 PHP_FUNCTION(fibonacci);
 
-size_t my_fibonacci(size_t n);
+size_t my_fibonacci_fast(size_t n);
 
 extern zend_module_entry fibonacci_module_entry;
 #define phpext_fibonacci_ptr &fibonacci_module_entry

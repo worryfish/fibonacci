@@ -46,15 +46,20 @@ zend_module_entry fibonacci_module_entry = {
 ZEND_GET_MODULE(fibonacci)
 #endif
 
-size_t my_fibonacci(size_t n)
+size_t my_fibonacci_fast(size_t n)
 {
-   if ( n == 0 ) {
-      return 0;
-   } else if ( n == 1 ) {
-      return 1;
-   } else {
-      return my_fibonacci(n-2) + my_fibonacci(n-1);
+   size_t a = 0;
+   size_t b = 1;
+   size_t i;
+   size_t sum = 0;
+   
+   for (i=0; i<n; i++) {
+       sum = a + b;
+       a = b;
+       b = sum;
    }
+   
+   return a;
 } 
 
 PHP_FUNCTION(fibonacci)
@@ -70,5 +75,10 @@ PHP_FUNCTION(fibonacci)
         RETURN_FALSE;
     }
     
-    RETURN_LONG( my_fibonacci( count_number ) );
+    if ( count_number > 92 ) {
+        php_error_docref(NULL, E_WARNING, "expects parameter 1 (%i) to be less than 93. Out of range PHP_INT_MAX", count_number);
+        RETURN_FALSE;
+    }
+    
+    RETURN_LONG( my_fibonacci_fast( count_number ) );
 }
