@@ -1,10 +1,10 @@
-Fibonacci extension
+Fibonacci php extension
 
 DESCRIPTION
 ===========
 
-Fibonacci is a php7 extension providing high performance calculations of fibonacci
-numbers.
+This is a php7 extension providing high performance calculations of fibonacci
+numbers. Made just for fun.
 
 EXAMPLES
 ========
