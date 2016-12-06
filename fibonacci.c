@@ -29,15 +29,35 @@ static zend_function_entry fibonacci_functions[] = {
     PHP_FE_END
 };
 
+/* {{{ MINIT */
+
+static PHP_MINIT_FUNCTION(fibonacci)
+{
+    REGISTER_LONG_CONSTANT("FIBONACCI_METHOD_FAST", PHP_FIBONACCI_METHOD_FAST, CONST_CS | CONST_PERSISTENT);
+    REGISTER_LONG_CONSTANT("FIBONACCI_METHOD_SLOW", PHP_FIBONACCI_METHOD_SLOW, CONST_CS | CONST_PERSISTENT);
+    
+    return SUCCESS;
+}
+
+/* {{{ MINIT */
+
+static PHP_MINFO_FUNCTION(fibonacci)
+{
+    php_info_print_table_start();
+    php_info_print_table_row(2, "Fibonacchi support", "enabled");
+    php_info_print_table_row(2, "Fibonacchi version", PHP_FIBONACCI_VERSION);
+    php_info_print_table_end();
+}
+
 zend_module_entry fibonacci_module_entry = {
     STANDARD_MODULE_HEADER,
     PHP_FIBONACCI_EXTNAME,
     fibonacci_functions,
+    PHP_MINIT(fibonacci),
     NULL,
     NULL,
     NULL,
-    NULL,
-    NULL,
+    PHP_MINFO(fibonacci),
     PHP_FIBONACCI_VERSION,
     STANDARD_MODULE_PROPERTIES
 };
@@ -45,6 +65,17 @@ zend_module_entry fibonacci_module_entry = {
 #ifdef COMPILE_DL_FIBONACCI
 ZEND_GET_MODULE(fibonacci)
 #endif
+
+size_t my_fibonacci_slow(size_t n)
+{
+   if ( n == 0 ) {
+      return 0;
+   } else if ( n == 1 ) {
+      return 1;
+   } else {
+      return my_fibonacci_slow(n-2) + my_fibonacci_slow(n-1);
+   }
+} 
 
 size_t my_fibonacci_fast(size_t n)
 {
@@ -65,8 +96,9 @@ size_t my_fibonacci_fast(size_t n)
 PHP_FUNCTION(fibonacci)
 {
     zend_long count_number;
+    zend_long method_type = PHP_FIBONACCI_METHOD_FAST;
     
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &count_number) == FAILURE) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "l|l", &count_number, &method_type) == FAILURE) {
         return;
     }
     
@@ -80,5 +112,9 @@ PHP_FUNCTION(fibonacci)
         RETURN_FALSE;
     }
     
-    RETURN_LONG( my_fibonacci_fast( count_number ) );
+    if ( method_type == PHP_FIBONACCI_METHOD_SLOW ) {
+        RETURN_LONG( my_fibonacci_slow( count_number ) );
+    } else {
+        RETURN_LONG( my_fibonacci_fast( count_number ) );
+    }
 }

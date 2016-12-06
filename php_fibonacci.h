@@ -20,11 +20,15 @@
 
 #ifndef PHP_FIBONACCI_H
 #define PHP_FIBONACCI_H 1
-#define PHP_FIBONACCI_VERSION "1.0"
+#define PHP_FIBONACCI_VERSION "1.1"
 #define PHP_FIBONACCI_EXTNAME "Fibonacci"
+
+#define PHP_FIBONACCI_METHOD_FAST (1<<0)
+#define PHP_FIBONACCI_METHOD_SLOW (1<<1)
 
 PHP_FUNCTION(fibonacci);
 
+size_t my_fibonacci_slow(size_t n);
 size_t my_fibonacci_fast(size_t n);
 
 extern zend_module_entry fibonacci_module_entry;

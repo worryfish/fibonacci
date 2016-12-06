@@ -17,3 +17,5 @@ function fibonacci_pure($n){
 print fibonacci_pure($count_number).PHP_EOL;
 
 print fibonacci($count_number).PHP_EOL;
+
+print fibonacci($count_number, FIBONACCI_METHOD_SLOW).PHP_EOL;

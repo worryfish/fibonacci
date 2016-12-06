@@ -9,11 +9,19 @@ numbers. Made just for fun.
 EXAMPLES
 ========
 
-SIMPLE USAGE
+FAST METHOD
 -------------
 
     <?php
     $number = fibonacci(40);
+    print $number.PHP_EOL;
+    ?>
+
+SLOW METHOD USING RECURSION
+-------------
+
+    <?php
+    $number = fibonacci(40, FIBONACCI_METHOD_SLOW);
     print $number.PHP_EOL;
     ?>
 
