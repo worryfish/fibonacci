@@ -39,7 +39,7 @@ static PHP_MINIT_FUNCTION(fibonacci)
     return SUCCESS;
 }
 
-/* {{{ MINIT */
+/* {{{ MINFO */
 
 static PHP_MINFO_FUNCTION(fibonacci)
 {
